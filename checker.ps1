@@ -10,44 +10,109 @@ Set-ExecutionPolicy Bypass -Scope Process -Force
 
 Clear-Host
 
-$Host.UI.RawUI.WindowTitle = "WhiteGrief | Advanced System Integrity Verification v2.1"
+# =============================================
+#   ФЕЙКОВАЯ ПРОВЕРКА WHITEGRIEF
+#   Визуальный скрипт для троллинга/прикола
+# =============================================
 
-Write-Host "[*] Инициализация сессии WhiteGrief Security..." -ForegroundColor Cyan
-Start-Sleep -Seconds 2
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
 
-Write-Host "[+] Подключение к базе данных сигнатур через HTTPS..." -ForegroundColor Green
-Start-Sleep -Seconds 1
-Write-Host "[+] Авторизация модератора: [SUCCESS]" -ForegroundColor Green
-Write-Host "------------------------------------------------------------"
+# Создаём форму
+$form = New-Object System.Windows.Forms.Form
+$form.Text = "WhiteGrief | Проверка аккаунта"
+$form.Size = New-Object System.Drawing.Size(800, 500)
+$form.StartPosition = "CenterScreen"
+$form.FormBorderStyle = "FixedSingle"
+$form.MaximizeBox = $false
+$form.BackColor = [System.Drawing.Color]::FromArgb(20, 20, 25)
+$form.ForeColor = [System.Drawing.Color]::White
+$form.Font = New-Object System.Drawing.Font("Consolas", 11)
 
-$tasks = @(
-    "Анализ дампов памяти javaw.exe",
-    "Проверка загруженных модулей jvm.dll",
-    "Сканирование кэша дескрипторов файлов",
-    "Поиск следов инъекций в explorer.exe",
-    "Верификация контрольных сумм библиотек LWJGL",
-    "Проверка реестра на наличие ключей автозапуска ПО",
-    "Эвристический анализ сетевых пакетов Minecraft"
+# Заголовок
+$title = New-Object System.Windows.Forms.Label
+$title.Text = "█ WHITEGRIEF █`nПРОВЕРКА НА ЧИТЫ И ЛИЦЕНЗИЮ"
+$title.Font = New-Object System.Drawing.Font("Consolas", 16, [System.Drawing.FontStyle]::Bold)
+$title.ForeColor = [System.Drawing.Color]::Lime
+$title.AutoSize = $true
+$title.Location = New-Object System.Drawing.Point(120, 30)
+$form.Controls.Add($title)
+
+# Подзаголовок
+$sub = New-Object System.Windows.Forms.Label
+$sub.Text = "Сервер: mc.WhiteGrief.pw | Версия: 1.21"
+$sub.ForeColor = [System.Drawing.Color]::Gray
+$sub.Location = New-Object System.Drawing.Point(200, 90)
+$form.Controls.Add($sub)
+
+# Прогресс-бар
+$progress = New-Object System.Windows.Forms.ProgressBar
+$progress.Location = New-Object System.Drawing.Point(100, 150)
+$progress.Size = New-Object System.Drawing.Size(600, 30)
+$progress.Style = "Continuous"
+$progress.Maximum = 100
+$progress.Value = 0
+$form.Controls.Add($progress)
+
+# Статус
+$status = New-Object System.Windows.Forms.Label
+$status.Text = "Инициализация проверки..."
+$status.ForeColor = [System.Drawing.Color]::Cyan
+$status.AutoSize = $true
+$status.Location = New-Object System.Drawing.Point(150, 200)
+$form.Controls.Add($status)
+
+# Лог
+$logBox = New-Object System.Windows.Forms.TextBox
+$logBox.Multiline = $true
+$logBox.ScrollBars = "Vertical"
+$logBox.BackColor = [System.Drawing.Color]::FromArgb(10, 10, 15)
+$logBox.ForeColor = [System.Drawing.Color]::Lime
+$logBox.Font = New-Object System.Drawing.Font("Consolas", 10)
+$logBox.Size = New-Object System.Drawing.Size(600, 150)
+$logBox.Location = New-Object System.Drawing.Point(100, 240)
+$logBox.ReadOnly = $true
+$form.Controls.Add($logBox)
+
+# Кнопка "Пройти проверку" (фейковая)
+$btn = New-Object System.Windows.Forms.Button
+$btn.Text = "▶ ПРОЙТИ ПРОВЕРКУ"
+$btn.Size = New-Object System.Drawing.Size(300, 50)
+$btn.Location = New-Object System.Drawing.Point(250, 410)
+$btn.BackColor = [System.Drawing.Color]::FromArgb(0, 150, 0)
+$btn.ForeColor = [System.Drawing.Color]::White
+$btn.Font = New-Object System.Drawing.Font("Consolas", 12, [System.Drawing.FontStyle]::Bold)
+$form.Controls.Add($btn)
+
+# Анимация проверки
+$lines = @(
+    "[INFO] Подключение к WhiteGrief Anti-Cheat...",
+    "[INFO] Проверка лицензии Microsoft...",
+    "[WARN] Обнаружено подозрительное поведение!",
+    "[INFO] Сканирование модов и текстур...",
+    "[INFO] Проверка на Baritone, Wurst, Meteor...",
+    "[SUCCESS] Читов не обнаружено",
+    "[INFO] Проверка гриферского стажа...",
+    "[SUCCESS] Ты настоящий грифер! Добро пожаловать на WhiteGrief"
 )
 
-foreach ($task in $tasks) {
-    $progress = 0
-    Write-Host "[PROCESS] $task..." -NoNewline
-    while ($progress -lt 100) {
-        $progress += (Get-Random -Minimum 5 -Maximum 20)
-        if ($progress -gt 100) { $progress = 100 }
-        Write-Host "." -NoNewline -ForegroundColor Yellow
-        Start-Sleep -Milliseconds (Get-Random -Minimum 50 -Maximum 300)
+$btn.Add_Click({
+    $btn.Enabled = $false
+    $progress.Value = 0
+    
+    foreach ($line in $lines) {
+        Start-Sleep -Milliseconds 400
+        $logBox.AppendText("$line`r`n")
+        $progress.Value += [math]::Floor(100 / $lines.Count)
+        $status.Text = $line
+        $form.Refresh()
     }
-    Write-Host " [DONE]" -ForegroundColor Green
-}
+    
+    Start-Sleep -Milliseconds 800
+    $status.ForeColor = [System.Drawing.Color]::Lime
+    $status.Text = "ПРОВЕРКА ПРОЙДЕНА! ЗАГРУЗКА НА СЕРВЕР..."
+    [System.Windows.Forms.MessageBox]::Show("Добро пожаловать на WhiteGrief!`n`nТы прошёл проверку.`nГриферь с удовольствием ❤️", "WhiteGrief", "OK", "Information")
+})
 
-Write-Host "------------------------------------------------------------"
-Write-Host "[!] СКАНИРОВАНИЕ ЗАВЕРШЕНО" -ForegroundColor Cyan
-Write-Host "[RESULT] Запрещенных модификаций не обнаружено." -ForegroundColor White -BackgroundColor Green
-Write-Host "[RESULT] Система полностью соответствует стандартам WhiteGrief." -ForegroundColor Green
-Write-Host "------------------------------------------------------------"
-Write-Host "ID Проверки: WG-X$(Get-Random -Minimum 1000 -Maximum 9999)-$(Get-Date -Format "HHmm")"
-Write-Host "Сообщите этот ID модератору и не закрывайте окно."
-Write-Host "`nНажмите Enter, чтобы выйти..."
-Read-Host
+# Показываем форму
+[System.Windows.Forms.Application]::Run($form)
